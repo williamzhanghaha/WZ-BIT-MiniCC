@@ -3,7 +3,7 @@ package bit.minisys.minicc.icgen;
 import bit.minisys.minicc.semantic.symbol.Symbol;
 
 public class WZQuat {
-    enum WZ_QUAT_OP {
+    public enum WZ_QUAT_OP {
 
         LABEL, // (LABEL, , , @1): this is not a Quat but a label @1
 
@@ -26,8 +26,8 @@ public class WZQuat {
         OR,  // ||
 
         JMP,  // (JMP, , , @1): jump to @1
-        JE,   // (JE, a, b, @1): jump to @1 if a == b
-        JNE,  // (JNE, a, b, @1): jump to @1 if a != b
+//        JE,   // (JE, a, b, @1): jump to @1 if a == b
+//        JNE,  // (JNE, a, b, @1): jump to @1 if a != b
         JF,   // (JF, a, , @1): jump to @1 if a == 0;
 
         RET,  // return result (result may be null)

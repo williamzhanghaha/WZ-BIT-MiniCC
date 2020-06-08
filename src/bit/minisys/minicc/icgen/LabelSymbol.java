@@ -8,4 +8,8 @@ public class LabelSymbol extends Symbol {
         this.id = id;
         this.identifier = "@" + id;
     }
+
+    public int getId() {
+        return id;
+    }
 }

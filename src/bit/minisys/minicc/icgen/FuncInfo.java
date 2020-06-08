@@ -57,6 +57,18 @@ public class FuncInfo {
         }
     }
 
+    public FuncSymbol getFuncSymbol() {
+        return symbol;
+    }
+
+    public List<Symbol> getSymbolTable() {
+        return symbolTable;
+    }
+
+    public boolean isGlobal() {
+        return isGlobal;
+    }
+
     public void addQuat(WZQuat quat) {
         quats.add(quat);
     }
@@ -101,5 +113,9 @@ public class FuncInfo {
             }
         }
         return new String(output);
+    }
+
+    public List<WZQuat> getQuats() {
+        return quats;
     }
 }
