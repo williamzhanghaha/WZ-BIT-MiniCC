@@ -12,6 +12,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import bit.minisys.minicc.icgen.WZICGen;
+import bit.minisys.minicc.parser.ast.ASTCompilationUnit;
+import bit.minisys.minicc.semantic.WZSemantic;
 import org.python.util.PythonInterpreter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -176,11 +179,18 @@ public class MiniCCompiler {
 				filename = pOutFile;
 			}
 		}
-		
+
+		// for WZ only
+		ASTCompilationUnit programWithSymbolTable = null;
+
 		// step 4: semantic
 		if(semantic.skip.equals("false")){
 			if(semantic.type.equals("java")){
-				if(!semantic.path.equals("")){
+				if (semantic.path.equals("bit.minisys.minicc.semantic.WZSemantic")) {
+					WZSemantic c = new WZSemantic();
+					filename = c.run(filename);
+					programWithSymbolTable = c.getProgram();
+				} else if(!semantic.path.equals("")){
 					Class<?> c = Class.forName(semantic.path);
 					Method method = c.getMethod("run", String.class);
 					filename = (String)method.invoke(c.newInstance(), filename);
@@ -202,7 +212,10 @@ public class MiniCCompiler {
 		// step 5: intermediate code generate
 		if(icgen.skip.equals("false")){
 			if(icgen.type.equals("java")){
-				if(!icgen.path.equals("")){
+				if (icgen.path.equals("bit.minisys.minicc.icgen.WZICGen")) {
+					WZICGen c = new WZICGen(programWithSymbolTable);
+					filename = c.run(filename);
+				} else if(!icgen.path.equals("")){
 					Class<?> c = Class.forName(icgen.path);
 					Method method = c.getMethod("run", String.class);
 					filename = (String)method.invoke(c.newInstance(), filename);

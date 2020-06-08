@@ -1,0 +1,86 @@
+func &prime(var %n i32) i32{
+var %sum i32
+var %i i32
+var %j i32
+var %flag i32
+dassign %3(constval i32 0)
+dassign %sum(regread i32 %3)
+dassign %7(constval i32 1)
+dassign %flag(regread i32 %7)
+dassign %8(constval i32 2)
+dassign %i(regread i32 %8)
+@1LoopCheckLabel:
+dassign %9(
+	le i32(dread i32 %i,dread i32 %n))
+dassign %10(regread i32 %9)
+brfalse <@1LoopEndLabel>(regread i32 %10)
+dassign %11(constval i32 1)
+dassign %flag(regread i32 %11)
+dassign %12(constval i32 2)
+dassign %j(regread i32 %12)
+@2LoopCheckLabel:
+dassign %13(
+	mul i32(dread i32 %j,dread i32 %j))
+dassign %14(regread i32 %13)
+dassign %15(
+	le i32(regread i32 %14,dread i32 %i))
+dassign %16(regread i32 %15)
+brfalse <@2LoopEndLabel>(regread i32 %16)
+dassign %17(
+	rem i32(dread i32 %i,dread i32 %j))
+dassign %18(regread i32 %17)
+dassign %19(constval i32 0)
+dassign %20(
+	eq i32(regread i32 %18,regread i32 %19))
+dassign %21(regread i32 %20)
+brfalse <@1otherwise1>(regread i32 %21)
+dassign %22(constval i32 0)
+dassign %flag(regread i32 %22)
+goto <@2LoopEndLabel>
+goto <@1endif>
+@1otherwise1:
+@1endif:
+@2LoopStepLabel:
+dassign %23(dread i32 %j)
+dassign %24(constval i32 1)
+dassign %j(
+	add i32(dread i32 %j,regread i32 %24))
+goto <@2LoopCheckLabel>
+@2LoopEndLabel:
+dassign %25(constval i32 1)
+dassign %26(
+	eq i32(dread i32 %flag,regread i32 %25))
+dassign %27(regread i32 %26)
+brfalse <@2otherwise1>(regread i32 %27)
+dassign %28(dread i32 %sum)
+dassign %29(constval i32 1)
+dassign %sum(
+	add i32(dread i32 %sum,regread i32 %29))
+call Mars_PrintInt(dread i32 %i)
+goto <@2endif>
+@2otherwise1:
+@2endif:
+@1LoopStepLabel:
+dassign %30(dread i32 %i)
+dassign %31(constval i32 1)
+dassign %i(
+	add i32(dread i32 %i,regread i32 %31))
+goto <@1LoopCheckLabel>
+@1LoopEndLabel:
+return (dread i32 %sum)}
+
+func &main() i32{
+var %n i32
+var %res i32
+dassign %32(addrof a32 _1sc)
+call Mars_PrintStr(regread a32 %32)
+call Mars_GetInt()
+dassign %n(regread i32 %34)
+call prime(dread i32 %n)
+dassign %res(regread i32 %36)
+dassign %37(addrof a32 _2sc)
+call Mars_PrintStr(regread a32 %37)
+call Mars_PrintInt(dread i32 %res)
+dassign %38(constval i32 0)
+return (regread i32 %38)}
+

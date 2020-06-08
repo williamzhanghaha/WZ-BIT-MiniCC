@@ -2,6 +2,7 @@ package bit.minisys.minicc.parser.ast;
 
 import java.util.ArrayList;
 
+import bit.minisys.minicc.semantic.NodeInfo;
 import org.antlr.v4.runtime.tree.Tree;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,6 +38,9 @@ public abstract class ASTNode implements Tree{
 	
 	@JsonIgnore
 	public ASTNode parent;
+
+	@JsonIgnore
+	public NodeInfo info;
 	
 	@JsonIgnore
 	public String getType() {

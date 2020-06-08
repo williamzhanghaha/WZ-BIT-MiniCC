@@ -1,0 +1,52 @@
+func &fibonacci(var %num i32) i32{
+var %res i32
+dassign %3(constval i32 1)
+dassign %4(
+	lt i32(dread i32 %num,regread i32 %3))
+dassign %5(regread i32 %4)
+brfalse <@1otherwise1>(regread i32 %5)
+dassign %6(constval i32 0)
+dassign %res(regread i32 %6)
+goto <@1endif>
+@1otherwise1:
+dassign %7(constval i32 2)
+dassign %8(
+	le i32(dread i32 %num,regread i32 %7))
+dassign %9(regread i32 %8)
+brfalse <@1otherwise2>(regread i32 %9)
+dassign %10(constval i32 1)
+dassign %res(regread i32 %10)
+goto <@1endif>
+@1otherwise2:
+dassign %11(constval i32 1)
+dassign %12(
+	sub i32(dread i32 %num,regread i32 %11))
+dassign %13(regread i32 %12)
+call fibonacci(regread i32 %13)
+dassign %15(constval i32 2)
+dassign %16(
+	sub i32(dread i32 %num,regread i32 %15))
+dassign %17(regread i32 %16)
+call fibonacci(regread i32 %17)
+dassign %19(
+	add i32(regread i32 %14,regread i32 %18))
+dassign %20(regread i32 %19)
+dassign %res(regread i32 %20)
+@1endif:
+return (dread i32 %res)}
+
+func &main() i32{
+var %n i32
+var %res i32
+dassign %21(addrof a32 _1sc)
+call Mars_PrintStr(regread a32 %21)
+call Mars_GetInt()
+dassign %n(regread i32 %23)
+call fibonacci(dread i32 %n)
+dassign %res(regread i32 %25)
+dassign %26(addrof a32 _2sc)
+call Mars_PrintStr(regread a32 %26)
+call Mars_PrintInt(dread i32 %res)
+dassign %27(constval i32 0)
+return (regread i32 %27)}
+

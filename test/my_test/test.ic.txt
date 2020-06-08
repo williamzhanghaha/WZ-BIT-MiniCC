@@ -1,0 +1,19 @@
+Func: f
+return: int 
+params: a b 
+Content {
+    (ADD, a, b, #0)
+    (RET, , , #0)
+}
+Func: main
+return: int 
+params: 
+Content {
+    (ASSIGN, 2, , y)
+    (ASSIGN, 1, , x)
+    (ARG, , , y)
+    (ARG, , , x)
+    (CALL, , , f)
+    (GRV, , , #1)
+    (RET, , , #1)
+}
