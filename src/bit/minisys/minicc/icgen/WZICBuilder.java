@@ -75,6 +75,10 @@ public class WZICBuilder implements ASTVisitor {
         return new String(output);
     }
 
+    public LinkedList<FuncInfo> getFuncInfoList() {
+        return funcInfoList;
+    }
+
     @Override
     public void visit(ASTCompilationUnit program) throws Exception {
         FuncInfo globalInfo = new FuncInfo(program);

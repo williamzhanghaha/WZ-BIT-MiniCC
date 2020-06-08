@@ -7,12 +7,15 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import bit.minisys.minicc.icgen.FuncInfo;
 import bit.minisys.minicc.icgen.WZICGen;
+import bit.minisys.minicc.ncgen.WZCodeGen;
 import bit.minisys.minicc.parser.ast.ASTCompilationUnit;
 import bit.minisys.minicc.semantic.WZSemantic;
 import org.python.util.PythonInterpreter;
@@ -96,6 +99,7 @@ public class MiniCCompiler {
 			else if(name.equals("simulate")) {
 				//InterVars.goalAsm = temp.getAttribute("type");
 				//InterVars.level = temp.getAttribute("level");
+				simulating.skip = temp.getAttribute("skip");
 			}
 		}
 	}
@@ -189,6 +193,7 @@ public class MiniCCompiler {
 
 		// for WZ only
 		ASTCompilationUnit programWithSymbolTable = null;
+		List<FuncInfo> funcInfoList = null;
 
 		// step 4: semantic
 		if(semantic.skip.equals("false")){
@@ -222,6 +227,7 @@ public class MiniCCompiler {
 				if (icgen.path.equals("bit.minisys.minicc.icgen.WZICGen")) {
 					WZICGen c = new WZICGen(programWithSymbolTable);
 					filename = c.run(filename);
+					funcInfoList = c.getFuncInfoList();
 				} else if(!icgen.path.equals("")){
 					Class<?> c = Class.forName(icgen.path);
 					Method method = c.getMethod("run", String.class);
@@ -266,7 +272,10 @@ public class MiniCCompiler {
 		// step 7: code generate
 		if(codegen.skip.equals("false")){
 			if(codegen.type.equals("java")){
-				if(!codegen.path.equals("")){
+				if (codegen.path.equals("bit.minisys.minicc.ncgen.WZCodeGen")) {
+					WZCodeGen iCodeGen = new WZCodeGen(funcInfoList);
+					filename = iCodeGen.run(filename, codegen);
+				} else if(!codegen.path.equals("")){
 					Class<?> c = Class.forName(codegen.path);
 					Method method = c.getMethod("run", String.class, MiniCCCfg.class);
 					filename = (String)method.invoke(c.newInstance(), filename, codegen);
@@ -286,7 +295,7 @@ public class MiniCCompiler {
 		}
 		
 		// step 8: simulation
-		if(codegen.skip.equals("false")){
+		if(simulating.skip.equals("false")){
 			if(codegen.target.equals("mips")){
 				MIPSSimulator ms = new MIPSSimulator();
 				ms.run(filename);
