@@ -205,9 +205,9 @@ public class WZICBuilder implements ASTVisitor {
                 }
                 result.setSpecifier(specifier);
             } else if (opnd1 instanceof ConstantSymbol) {
-                result.setSpecifier(opnd1.getSpecifier());
-            } else {
                 result.setSpecifier(opnd2.getSpecifier());
+            } else {
+                result.setSpecifier(opnd1.getSpecifier());
             }
             addSymbol(result);
         }
@@ -364,6 +364,7 @@ public class WZICBuilder implements ASTVisitor {
             if (result == null) {
                 result = tmpValueGenerator.genNewTmpVal();
                 result.setSpecifier(funcSymbol.getSpecifier());
+                addSymbol(result);
             }
             addQuat(new WZQuat(WZQuat.WZ_QUAT_OP.GRV, null, null, result));
             resultMap.put(funcCall, result);
