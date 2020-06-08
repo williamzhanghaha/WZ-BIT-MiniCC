@@ -1,3 +1,6 @@
+void Mars_PrintStr(char *);
+int Mars_GetInt();
+void Mars_PrintInt(int);
 int prime(int n){
 	int sum = 0;
 	int i,j,flag = 1;

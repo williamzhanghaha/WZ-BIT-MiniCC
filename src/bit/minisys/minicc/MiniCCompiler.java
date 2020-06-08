@@ -103,6 +103,7 @@ public class MiniCCompiler {
 	public void run(String cFile) throws Exception{
 		
 		String filename = cFile;
+		String ppCFilename = null;
 		
 		readConfig();
 		
@@ -113,6 +114,7 @@ public class MiniCCompiler {
 					Class<?> c = Class.forName(pp.path);
 					Method method = c.getMethod("run", String.class);
 					filename = (String)method.invoke(c.newInstance(), filename);
+					ppCFilename = filename;
 				}else{
 					MiniCCPreProcessor prep = new MiniCCPreProcessor();
 					filename = prep.run(cFile);
@@ -167,7 +169,12 @@ public class MiniCCompiler {
 					filename = (String)method.invoke(c.newInstance(), filename);
 				}else{
 					MiniCCParser p = new MiniCCParser();
-					filename = p.run(cFile);	// internal ANTLR parser uses .c as input, and output ast.json
+					if (pp.skip.equals("false") && pp.path.equals("bit.minisys.minicc.pp.WZPP")) {
+						// if WZPP is enabled, internal ANTLR parser use .pp.c as input
+						filename = p.run(ppCFilename);
+					} else {
+						filename = p.run(cFile);    // internal ANTLR parser uses .c as input, and output ast.json
+					}
 				}
 			}else {
 				String pOutFile = filename.replace(MiniCCCfg.MINICC_SCANNER_OUTPUT_EXT, MiniCCCfg.MINICC_PARSER_OUTPUT_EXT);
