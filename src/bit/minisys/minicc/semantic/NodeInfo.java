@@ -441,6 +441,9 @@ public class NodeInfo {
                     // check num and constant args
                     boolean match = true;
                     FuncSymbol funcSymbol = (FuncSymbol) functionDeclared;
+                    if (functionCall.argList == null) {
+                        functionCall.argList = new ArrayList<>();
+                    }
                     if (functionCall.argList.size() != funcSymbol.getParams().size()) {
                         match = false;
                     } else {
@@ -501,9 +504,11 @@ public class NodeInfo {
         declaratorChild.visitAsDeclarator();
         this.symbolTable.mergeChildTable(declaratorChild.symbolTable, true);
         // expressions
-        for (ASTExpression expression : initList.exprs) {
-            NodeInfo child = createChild(expression);
-            child.visitAsExpression();
+        if (initList.exprs != null) {
+            for (ASTExpression expression : initList.exprs) {
+                NodeInfo child = createChild(expression);
+                child.visitAsExpression();
+            }
         }
     }
 

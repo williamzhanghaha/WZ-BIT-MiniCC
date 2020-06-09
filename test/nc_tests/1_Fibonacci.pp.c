@@ -1,6 +1,3 @@
-void Mars_PrintStr(char *);
-int Mars_GetInt();
-void Mars_PrintInt(int);
 int fibonacci(int num){
 	int res;
 	if(num < 1){

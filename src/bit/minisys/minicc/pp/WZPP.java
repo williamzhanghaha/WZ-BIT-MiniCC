@@ -11,9 +11,9 @@ public class WZPP implements IMiniCCPreProcessor {
         System.out.println("Adding declarations for MARS functions");
         ArrayList<String> src = MiniCCUtil.readFile(iFile);
         StringBuilder output = new StringBuilder();
-        output.append("void Mars_PrintStr(char *);\n");
-        output.append("int Mars_GetInt();\n");
-        output.append("void Mars_PrintInt(int);\n");
+//        output.append("void Mars_PrintStr(char *);\n");
+//        output.append("int Mars_GetInt();\n");
+//        output.append("void Mars_PrintInt(int);\n");
         for (String line : src) {
             output.append(line);
             output.append("\n");

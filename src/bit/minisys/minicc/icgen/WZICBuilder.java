@@ -384,7 +384,7 @@ public class WZICBuilder implements ASTVisitor {
 
     @Override
     public void visit(ASTInitList initList) throws Exception {
-        if (initList.exprs.isEmpty()) {
+        if (initList.exprs == null || initList.exprs.isEmpty()) {
             return;
         }
         if (initList.declarator instanceof ASTVariableDeclarator) {

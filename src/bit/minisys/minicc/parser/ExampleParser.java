@@ -36,7 +36,7 @@ import bit.minisys.minicc.parser.ast.*;
  * 
  */
 
-class ScannerToken{
+class OldScannerToken{
 	public String lexme;
 	public String type;
 	public int	  line;
@@ -45,9 +45,9 @@ class ScannerToken{
 
 public class ExampleParser implements IMiniCCParser {
 
-	private ArrayList<ScannerToken> tknList;
+	private ArrayList<OldScannerToken> tknList;
 	private int tokenIndex;
-	private ScannerToken nextToken;
+	private OldScannerToken nextToken;
 	
 	@Override
 	public String run(String iFile) throws Exception {
@@ -76,8 +76,8 @@ public class ExampleParser implements IMiniCCParser {
 	}
 	
 
-	private ArrayList<ScannerToken> loadTokens(String tFile) {
-		tknList = new ArrayList<ScannerToken>();
+	private ArrayList<OldScannerToken> loadTokens(String tFile) {
+		tknList = new ArrayList<OldScannerToken>();
 		
 		ArrayList<String> tknStr = MiniCCUtil.readFile(tFile);
 		
@@ -86,7 +86,7 @@ public class ExampleParser implements IMiniCCParser {
 				continue;
 			}
 			
-			ScannerToken st = new ScannerToken();
+			OldScannerToken st = new OldScannerToken();
 			//[@0,0:2='int',<'int'>,1:0]
 			String[] segs;
 			if(str.indexOf("<','>") > 0) {
@@ -111,7 +111,7 @@ public class ExampleParser implements IMiniCCParser {
 		return tknList;
 	}
 
-	private ScannerToken getToken(int index){
+	private OldScannerToken getToken(int index){
 		if (index < tknList.size()){
 			return tknList.get(index);
 		}
@@ -120,7 +120,7 @@ public class ExampleParser implements IMiniCCParser {
 
 	public void matchToken(String type) {
 		if(tokenIndex < tknList.size()) {
-			ScannerToken next = tknList.get(tokenIndex);
+			OldScannerToken next = tknList.get(tokenIndex);
 			if(!next.type.equals(type)) {
 				System.out.println("[ERROR]Parser: unmatched token, expected = " + type + ", " 
 						+ "input = " + next.type);
@@ -202,7 +202,7 @@ public class ExampleParser implements IMiniCCParser {
 
 	//TYPE --> INT |FLOAT | CHART
 	public ASTToken type() {
-		ScannerToken st = tknList.get(tokenIndex);
+		OldScannerToken st = tknList.get(tokenIndex);
 		
 		ASTToken t = new ASTToken();
 		if(st.type.equals("'int'")) {

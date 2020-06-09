@@ -12,6 +12,10 @@ public class WZSemantic implements IMiniCCSemantic {
         ObjectMapper mapper = new ObjectMapper();
         program = mapper.readValue(new File(iFile), ASTCompilationUnit.class);
 
+        // Add Mars Functions
+        ASTCompilationUnit marsFuncs = mapper.readValue(WZMarsFuncJson.CONTENT, ASTCompilationUnit.class);
+        program.items.addAll(0, marsFuncs.items);
+
         ErrorHandler errorHandler = new ErrorHandler();
 
         System.out.println("===================Semantic===================");
