@@ -68,6 +68,7 @@ public class WZRegManager {
             recentlyUsed.put(clockPtr, false);
             increaseClockPtr();
         }
+        increaseClockPtr();
         return clockPtr;
     }
 
