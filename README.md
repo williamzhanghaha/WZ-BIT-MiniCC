@@ -2,7 +2,7 @@
 A compiler for a subset of C.<br>
 From C to MIPS.<br>
 Scan - Parse - Semantic - ICGen - NCGen<br>
-Use BIT-MiniCC Framework.
+Based on BIT-MiniCC Framework.
 
 # BIT-MiniCC
 BIT Mini C Compiler is a C compiler framework in Java for teaching.
